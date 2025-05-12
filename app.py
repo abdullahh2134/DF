@@ -1,3 +1,4 @@
+!pip install tf-keras
 from flask import Flask, request, jsonify
 from deepface import DeepFace
 import os
