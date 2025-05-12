@@ -1,7 +1,6 @@
 flask
 deepface
-tensorflow
-keras
+tensorflow==2.5.0
 opencv-python
 numpy
 pandas
