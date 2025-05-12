@@ -1,6 +1,7 @@
 flask
 deepface
 tensorflow
+keras
 opencv-python
 numpy
 pandas
