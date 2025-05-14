@@ -2,7 +2,7 @@
 from flask import Flask, request, jsonify
 from deepface import DeepFace
 import os
-
+import uuid
 app = Flask(__name__)
 
 @app.route('/')
@@ -15,14 +15,20 @@ def analyze_emotion():
         return jsonify({"error": "No image uploaded"}), 400
 
     image_file = request.files['image']
-    image_path = os.path.join("temp.jpg")
+    unique_filename = f"temp_{uuid.uuid4().hex}.jpg"
+    image_path = os.path.join(unique_filename)
     image_file.save(image_path)
 
     try:
         result = DeepFace.analyze(img_path=image_path, actions=['emotion'])
 
-        emotions = result[0]['emotion']
-        dominant = result[0]['dominant_emotion']
+        # Handle both dict and list output from DeepFace
+        if isinstance(result, list):
+            emotions = result[0]['emotion']
+            dominant = result[0]['dominant_emotion']
+        else:
+            emotions = result['emotion']
+            dominant = result['dominant_emotion']
 
         return jsonify({
             "emotions": emotions,
